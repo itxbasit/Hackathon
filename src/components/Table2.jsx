@@ -1,24 +1,7 @@
 import React from 'react'
 
-const Table2 = () => {
+const Table2 = ({data}) => {
   // Sample data (replace with your actual data)
-  const users = [
-    {
-      id: 1,
-      profileImage: 'profile_image_url_1',
-      name: 'John Doe',
-      checkinTime: '9:00 AM',
-      checkoutTime: '5:00 PM',
-    },
-    {
-      id: 2,
-      profileImage: 'profile_image_url_2',
-      name: 'Jane Smith',
-      checkinTime: '8:30 AM',
-      checkoutTime: '4:30 PM',
-    },
-    // Add more objects for additional users
-  ];
 
   return (
     <div className="user-table-container"> {/* Apply CSS class for styling */}
@@ -33,16 +16,18 @@ const Table2 = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
+          {data?.map((user, id) => (
+            user?.attendanceDetails.length !== 0  ?
+            <tr key={id}>
+              <td>{id+1}</td>
               <td>
-                <img src={user.profileImage} alt="Profile" style={{ width: '50px', height: '50px' }} />
+                <img src={user.url} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: "50%" }} />
               </td>
               <td>{user.name}</td>
-              <td>{user.checkinTime}</td>
-              <td>{user.checkoutTime}</td>
-            </tr>
+              <td>{user.attendanceDetails[0]}</td>
+              <td>{user.attendanceDetails[1]}</td>
+            </tr>: 
+            <p style={{textAlign: "center", marginTop: "2rem"}}>No Class Taken</p>
           ))}
         </tbody>
       </table>

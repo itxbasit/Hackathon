@@ -5,7 +5,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import Link from '../../link';
 
-const Login = ({heading, navlink, navlinkVal, axiosLink, emailHolder, passwordHolder, pre}) => {
+const Login = ({linkAfterAxios, heading, navlink, navlinkVal, axiosLink, emailHolder, passwordHolder, pre}) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
     axios.post(`${Link}${axiosLink}`,
@@ -18,10 +18,16 @@ const Login = ({heading, navlink, navlinkVal, axiosLink, emailHolder, passwordHo
         text: "Successfully Login",
         icon: "success"
       });
-      navigate('/')
+      navigate('/student')
     }
     else if(pre == 'Student'){
-
+      localStorage.setItem("Studen_ID", res.data.message._id)
+      Swal.fire({
+        title: "Good job!",
+        text: "Successfully Login",
+        icon: "success"
+      });
+      navigate('/AttendanceApp/StudentDetails')
     }
       
     }).catch((err) => {

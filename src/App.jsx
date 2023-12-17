@@ -20,8 +20,7 @@ function App() {
       <Route path='/AttendanceApp/StudentDetails' element={<StudentDetails/>} />
     <Route path='/AttendanceApp/StudentLogin' element={<StudentLogin/>} />
     <Route element={<Layout/>}>
-
-    <Route path='/attendence' element={<Attendence/>} />
+    <Route index path='/attendence' element={<Attendence/>} />
     <Route path='/student' element={<AllStudentLayout/>} />
     </Route>
     </>

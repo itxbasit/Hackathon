@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, message, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -24,6 +24,33 @@ const beforeUpload = (file) => {
 };
 
 const form = () => {
+    const id = localStorage.getItem("Studen_ID")
+    const [data, setData] = useState()
+  useEffect(()=>{
+    axios.post(`http://localhost:9000/StudentSearch`, {id: id
+    })
+    .then((res)=>{
+      setData(res.data.message)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  },[])
+  const currentDate = new Date();
+
+  // Get day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const dayOfWeek = currentDate.getDay();
+
+  // Define an array of alphabet representations for each day
+  const daysInAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+  // Get current time in HH:mm:ss format
+  const currentTime = currentDate.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+  });
+  const Checkdate = currentDate.toDateString() + " " + currentTime;
+  const CheckOutdate = currentDate.toDateString() + " " + currentTime;
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState();
     const [form] = Form.useForm();
@@ -32,6 +59,7 @@ const form = () => {
     console.log(textCheck, check)
     const onFinish = (values) => {
         const update = { ...values, "url": imageUrl ? imageUrl : null }
+        console.log(values)
         setImageUrl("")
         form.resetFields();
 
@@ -42,6 +70,9 @@ const form = () => {
         else {
             setCheck(2)
             setTectCheck("Congratulation")
+            values.checkIn = Checkdate,
+            values.checkOut = CheckOutdate
+            console.log(values)
         }
         // axios.post("http://localhost:9000/changePass",
         //     update
@@ -63,7 +94,6 @@ const form = () => {
 
     };
     const onFinishFailed = (errorInfo) => {
-        console.log(errorInfo)
     };
     const handleClear = () => {
         form.resetFields();
@@ -100,23 +130,10 @@ const form = () => {
             </div>
         </div>
     );
-    const currentDate = new Date();
-
-    // Get day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-    const dayOfWeek = currentDate.getDay();
-
-    // Define an array of alphabet representations for each day
-    const daysInAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-
-    // Get current time in HH:mm:ss format
-    const currentTime = currentDate.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-    });
-    const date = currentDate.toDateString() + " " + currentTime;
-    console.log(`Day in Alphabet: ${daysInAlphabet[dayOfWeek]}`);
-
+    const logout = ()=> {
+        localStorage.clear("Studen_ID")
+    
+      }
     return (
         <div className='login'>
             <div className='frame'>
@@ -177,28 +194,28 @@ const form = () => {
                     <Form.Item
                         name="email"
                     >
-                        <Input className='inp' placeholder='Your Email' type='email' readOnly />
+                        <Input className='inp' placeholder={data?.email} type='email' readOnly />
                     </Form.Item>
                     <Form.Item
                         name="name"
                     >
-                        <Input className='inp' placeholder='Your name' type='text' readOnly />
+                        <Input className='inp' placeholder={data?.name} type='text' readOnly />
                     </Form.Item>
 
                     <Form.Item
                         name="course_Name"
                     >
-                        <Input className='inp' placeholder='Your course name' readOnly />
+                        <Input className='inp' placeholder={data?.courseName} readOnly />
                     </Form.Item>
                     <Form.Item
-                        name="Check in time"
+                        name="checkIn"
                     >
-                        <Input className='inp' placeholder={check === 0 ? 'check In' : date} readOnly />
+                        <Input className='inp' placeholder={check === 0 ? 'check In' : Checkdate} readOnly />
                     </Form.Item>
                     <Form.Item
-                        name="Check out time"
+                        name="checkOut"
                     >
-                        <Input className='inp' placeholder={check === 2 ? date : 'check Out'} readOnly />
+                        <Input className='inp' placeholder={check === 2 ? CheckOutdate : 'check Out'} readOnly />
                     </Form.Item>
                     </div>
                     <Form.Item
@@ -217,6 +234,7 @@ const form = () => {
 
                     </Form.Item>
                 </Form>
+                <NavLink to="/"><p onClick={logout}>Log Out</p></NavLink>
             </div>
         </div>
     )

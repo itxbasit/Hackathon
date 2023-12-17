@@ -19,11 +19,7 @@ const Drawer = () => {
             <div>
               <AddButton />
             </div>
-            <div className= "flex justify-center ">
-            <div >
-              <Image/>
-            </div>
-            </div>
+            
 
             <div className= "mt-4">
             <div style={{margin:'0rem'}}>

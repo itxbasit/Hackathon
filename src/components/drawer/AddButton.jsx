@@ -13,10 +13,6 @@ const AddButton = () => {
         
         <div style={{marginLeft:"2rem"}}><h4 style={{color:'black' , fontSize:'1.5rem' , }}>Add Students</h4></div>
       </div>
-
-      <div >
-        <button onClick={() => { console.log("hgfvc") }} className="btn btn-primary" style={{ width: '4rem' }}>ADD</button>
-      </div>
     </div>
   )
 }

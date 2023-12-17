@@ -2,6 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
+  const logout = ()=> {
+    localStorage.clear("Admin_ID")
+
+  }
   return (
     <div className='h-screen w-96 p-8  flex flex-col justify-between' style={{background:'#FFF'}}>
         <div className="box1">
@@ -23,7 +27,7 @@ const Sidebar = () => {
 
 
         <div className="box2">
-        <button className='text-4xl font-medium text-gray-900 dark:text-dark bg-slate-400 p-5 ' style={{borderRadius:'1rem'}}>Logout</button>
+        <NavLink to="/"><button className='text-4xl font-medium text-gray-900 dark:text-dark bg-slate-400 p-5 ' style={{borderRadius:'1rem'}} onClick={logout}>Logout</button></NavLink>
         </div>
 
     </div>

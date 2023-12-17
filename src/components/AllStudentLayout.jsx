@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "./Table";
 import Drawer from "./drawer/Drawer";
+import axios from "axios";
 
 const AllStudentLayout = () => {
+  const [data, setData] = useState()
+  useEffect(()=>{
+    axios.get('http://localhost:9000/allStudentData')
+    .then((res)=>{
+      setData(res.data.message)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  },[])
   return (
     <>
     <div className="top w-9/12 h-screen  bg-white p-10">
@@ -37,7 +47,7 @@ const AllStudentLayout = () => {
             
     </div>
  
- <Table/>
+ <Table data={data}/>
     </div>
    
     </>
